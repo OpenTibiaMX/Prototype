@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<npcs>
+	<npc centerx="32371" centery="31166" centerz="8" radius="1">
+		<npc name="Flariuz The Wise" x="0" y="0" z="8" spawntime="60" />
+	</npc>
+</npcs>
