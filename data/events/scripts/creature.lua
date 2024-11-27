@@ -25,6 +25,13 @@ local function removeCombatProtection(playerUid)
 	end, time * 1000, playerUid)
 end
 
+-- Tabla con armas bloqueadas
+local blockedWeapons = {
+    [3288] = true, -- Arma 1
+    [3289] = true, -- Arma 2
+    [3290] = true  -- Arma 3
+}
+
 function Creature:onTargetCombat(target)
 	if not self then
 		return true
@@ -78,6 +85,18 @@ function Creature:onTargetCombat(target)
 			end
 		end
 	end
+
+    -- Verificamos si la criatura y el objetivo son jugadores
+    if self:isPlayer() and target:isPlayer() then
+        -- Obtenemos el arma equipada en la mano izquierda
+        local leftHandItem = self:getSlotItem(CONST_SLOT_LEFT)
+
+        -- Verificamos si el arma equipada está en la tabla de armas bloqueadas
+        if leftHandItem and blockedWeapons[leftHandItem:getId()] then
+            -- Cancelamos el ataque
+            return RETURNVALUE_YOUMAYNOTATTACKTHISPLAYER
+        end
+    end
 
 	self:addEventStamina(target)
 	return true
